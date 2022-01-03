@@ -1,5 +1,5 @@
 Item attributes:
-	- ellIn = denotes the number of days we have to sell the item
+	- sellIn = denotes the number of days we have to sell the item
 	- Quality = denotes how valuable the item is
 
 Degrading of items: 
