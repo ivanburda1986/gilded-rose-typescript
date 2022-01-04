@@ -18,12 +18,32 @@ export class Shop {
   }
 
   updateQualityRefactored() {
-    const decreaseQuality = (item: Item): number => {
-      if (item.quality > 1 && item.sellIn < 0) {
-        return (item.quality -= 2);
+    const decreaseQuality = ({ item, decrement = 1 }: { item: Item; decrement?: number }): number => {
+      // if (item.name === "Quadro" && item.sellIn < 0 && item.quality >= 8) {
+      //   return (item.quality -= 8);
+      // }
+      // if (item.name === "Quadro" && item.quality >=4) {
+      //   return (item.quality -= 4);
+      // }
+
+      // if (item.name === "Tripled" && item.sellIn < 0 && item.quality >= 6) {
+      //   return (item.quality -= 6);
+      // }
+      // if (item.name === "Tripled" && item.quality >= 3) {
+      //   return (item.quality -= 3);
+      // }
+
+      // if (item.name === "Conjured" && item.sellIn < 0 && item.quality >= 4) {
+      //   return (item.quality -= 4);
+      // }
+      // if (item.name === "Conjured" && item.quality >= 2) {
+      //   return (item.quality -= 2);
+      // }
+      if (item.sellIn < 0 && item.quality >= 2 * decrement) {
+        return (item.quality -= 2 * decrement);
       }
-      if (item.quality > 0) {
-        return (item.quality -= 1);
+      if (item.quality >= decrement) {
+        return (item.quality -= decrement);
       }
       return 0;
     };
@@ -33,35 +53,38 @@ export class Shop {
       }
       return 0;
     };
-    const increaseQuality = ({ item, speed }: { item: Item; speed: number }): number => {
+    const increaseQuality = ({ item, increment }: { item: Item; increment: number }): number => {
       if (item.quality < 50) {
-        return (item.quality += speed);
+        return (item.quality += increment);
       }
       return 50;
     };
 
     this.items.forEach((item) => {
-      //Handle "Aged Brie"
       switch (item.name) {
         case "Aged Brie":
-          item.quality = increaseQuality({ item, speed: 1 });
+          item.quality = increaseQuality({ item, increment: 1 });
           break;
         case "Backstage passes to a TAFKAL80ETC concert":
-          if (item.sellIn < 11 && item.sellIn > 0) {
-            item.quality = increaseQuality({ item, speed: 2 });
-          }
-          if (item.sellIn < 6 && item.sellIn > 0) {
-            item.quality = increaseQuality({ item, speed: 3 });
-          }
           if (item.sellIn <= 0) {
             item.quality = 0;
           }
-          item.quality = increaseQuality({ item, speed: 1 });
+          if (item.sellIn < 6 && item.sellIn > 0) {
+            item.quality = increaseQuality({ item, increment: 3 });
+          }
+          if (item.sellIn < 11 && item.sellIn > 0) {
+            item.quality = increaseQuality({ item, increment: 2 });
+          }
+          item.quality = increaseQuality({ item, increment: 1 });
           break;
         case "Sulfuras, Hand of Ragnaros":
           break;
+        case "Conjured":
+          item.quality = decreaseQuality({ item, decrement: 2 });
+          item.sellIn = decreaseSellIn(item);
+          break;
         default:
-          item.quality = decreaseQuality(item);
+          item.quality = decreaseQuality({ item, decrement: 1 });
           item.sellIn = decreaseSellIn(item);
           return;
       }

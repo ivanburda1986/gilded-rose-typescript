@@ -26,6 +26,11 @@ Technical limitations:
 	- do not alter the Item class or Items property
 	- you can make the UpdateQuality method and Items property static
 
+	New requirement: 
+	We have recently signed a supplier of conjured items. This requires an update to our system:
+	- "Conjured" items degrade in Quality twice as fast as normal items
+
+
 
 
 
