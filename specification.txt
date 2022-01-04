@@ -1,4 +1,5 @@
 Item attributes:
+	- name
 	- sellIn = denotes the number of days we have to sell the item
 	- Quality = denotes how valuable the item is
 
