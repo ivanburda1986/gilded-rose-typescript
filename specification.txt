@@ -31,6 +31,9 @@ Technical limitations:
 	- "Conjured" items degrade in Quality twice as fast as normal items
 
 
+Writing test: 
+Inspiration https://github.com/ryananglem/gilded-rose/blob/master/TypeScript/test/gilded-rose.spec.ts
+
 
 
 
