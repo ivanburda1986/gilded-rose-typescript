@@ -33,14 +33,30 @@ export class Shop {
       }
       return 0;
     };
-    const increaseQuality = (item: Item): number => {};
+    const increaseQuality = ({ item, speed }: { item: Item; speed: number }): number => {
+      if (item.quality < 50) {
+        return (item.quality += speed);
+      }
+      return 50;
+    };
 
     this.items.forEach((item) => {
       //Handle "Aged Brie"
       switch (item.name) {
         case "Aged Brie":
+          item.quality = increaseQuality({ item, speed: 1 });
           break;
         case "Backstage passes to a TAFKAL80ETC concert":
+          if (item.sellIn < 11 && item.sellIn > 0) {
+            item.quality = increaseQuality({ item, speed: 2 });
+          }
+          if (item.sellIn < 6 && item.sellIn > 0) {
+            item.quality = increaseQuality({ item, speed: 3 });
+          }
+          if (item.sellIn <= 0) {
+            item.quality = 0;
+          }
+          item.quality = increaseQuality({ item, speed: 1 });
           break;
         case "Sulfuras, Hand of Ragnaros":
           break;
