@@ -36,7 +36,7 @@ describe("Decreasing of quality", () => {
     expect(bar.quality).toEqual(2);
   });
 
-  it("should set the quality of 'Backstage passes to a TAFKAL80ETC concert' to 0 when its sellIn is 0 days", () => {
+  it("should set the quality of 'Backstage passes to a TAFKAL80ETC concert' to 0 when its sellIn is 0 days or lower", () => {
     const gildedRose = new Shop([new Item("Backstage passes to a TAFKAL80ETC concert", 1, 50)]);
     const backstagePasses = gildedRose.items[0];
     gildedRose.updateQuality();
