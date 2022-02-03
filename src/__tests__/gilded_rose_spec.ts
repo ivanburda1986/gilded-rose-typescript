@@ -1,10 +1,22 @@
 import { Shop, Item } from "../gilded_rose";
+const ITEM_NAME_DEFAULT = "foo";
+const ITEM_NAME_CONCERT_TICKET = "Backstage passes to a TAFKAL80ETC concert";
+
+const SELL_IN_EXPIRING = 0;
+const SELL_IN_NOT_EXPIRED = 1;
+
+const QUALITY_EXPIRED = 0;
+const QUALITY_NOT_EXPIRED = 1;
+const QUALITY_2 = 2;
+const QUALITY_MAXIMUM = 50;
 
 describe("Add a new item to the store", () => {
   it("should add a new item", () => {
-    const gildedRose = new Shop([new Item("foo", 1, 1)]);
+    const gildedRose = new Shop([new Item(ITEM_NAME_DEFAULT, SELL_IN_NOT_EXPIRED, QUALITY_NOT_EXPIRED)]);
+
     const foo = gildedRose.items[0];
-    expect(foo.name).toEqual("foo");
+
+    expect(foo.name).toEqual(ITEM_NAME_DEFAULT);
     expect(foo.sellIn).toEqual(1);
     expect(foo.quality).toEqual(1);
   });
@@ -12,40 +24,43 @@ describe("Add a new item to the store", () => {
 
 describe("Decreasing of quality", () => {
   it("should decrease the quality of a regular item", () => {
-    const gildedRose = new Shop([new Item("foo", 5, 1)]);
-    const foo = gildedRose.items[0];
+    const gildedRose = new Shop([new Item(ITEM_NAME_DEFAULT, SELL_IN_NOT_EXPIRED, QUALITY_NOT_EXPIRED)]);
+
     gildedRose.updateQuality();
+    const foo = gildedRose.items[0];
+
     expect(foo.quality).toEqual(0);
   });
 
   it("should never decrease the quality to be negative", () => {
-    const gildedRose = new Shop([new Item("foo", 0, 0)]);
-    const foo = gildedRose.items[0];
+    const gildedRose = new Shop([new Item(ITEM_NAME_DEFAULT, SELL_IN_NOT_EXPIRED, QUALITY_EXPIRED)]);
+
     gildedRose.updateQuality();
+    const foo = gildedRose.items[0];
+
     expect(foo.quality).toEqual(0);
   });
 
   it("should twice as fast decrease the quality of a regular item for which the sell by date has passed", () => {
-    const gildedRose = new Shop([new Item("foo", 1, 4), new Item("bar", 0, 4)]);
-    const foo = gildedRose.items[0];
-    const bar = gildedRose.items[1];
+    const gildedRose = new Shop([new Item(ITEM_NAME_DEFAULT, SELL_IN_EXPIRING, QUALITY_2)]);
+
     gildedRose.updateQuality();
-    expect(foo.sellIn).toEqual(0);
-    expect(foo.quality).toEqual(3);
-    expect(bar.sellIn).toEqual(-1);
-    expect(bar.quality).toEqual(2);
+    const foo = gildedRose.items[0];
+
+    expect(foo.quality).toEqual(0);
   });
 
   it("should set the quality of 'Backstage passes to a TAFKAL80ETC concert' to 0 when its sellIn is 0 days or lower", () => {
-    const gildedRose = new Shop([new Item("Backstage passes to a TAFKAL80ETC concert", 1, 50)]);
-    const backstagePasses = gildedRose.items[0];
+    const gildedRose = new Shop([new Item(ITEM_NAME_CONCERT_TICKET, SELL_IN_EXPIRING, QUALITY_MAXIMUM)]);
+
     gildedRose.updateQuality();
-    expect(backstagePasses.sellIn).toEqual(0);
+    const backstagePasses = gildedRose.items[0];
+
     expect(backstagePasses.quality).toEqual(0);
   });
 
   it("should decrease the quality of Conjured items twice as fast as of regular items", () => {
-    const gildedRose = new Shop([new Item("foo", 1, 4), new Item("Conjured", 1, 4), new Item("foo", 0, 4), new Item("Conjured", 0, 4)]);
+    const gildedRose = new Shop([new Item(ITEM_NAME_DEFAULT, 1, 4), new Item("Conjured", 1, 4), new Item(ITEM_NAME_DEFAULT, 0, 4), new Item("Conjured", 0, 4)]);
     const foo = gildedRose.items[0];
     const conjured = gildedRose.items[1];
     const fooExpired = gildedRose.items[2];
@@ -114,7 +129,7 @@ describe("Never changing the quality", () => {
 
 describe("Decreasing of the sellIn", () => {
   it("should decrease the sellIn of any item except of Sulfuras, Hand of Ragnaros", () => {
-    const gildedRose = new Shop([new Item("foo", 1, 10), new Item("Aged Brie", 1, 10), new Item("Backstage passes to a TAFKAL80ETC concert", 1, 10), new Item("Conjured", 1, 10), new Item("Sulfuras, Hand of Ragnaros", 1, 80)]);
+    const gildedRose = new Shop([new Item(ITEM_NAME_DEFAULT, 1, 10), new Item("Aged Brie", 1, 10), new Item("Backstage passes to a TAFKAL80ETC concert", 1, 10), new Item("Conjured", 1, 10), new Item("Sulfuras, Hand of Ragnaros", 1, 80)]);
     const foo = gildedRose.items[0];
     const agedBrie = gildedRose.items[1];
     const backstagePasses = gildedRose.items[2];

@@ -45,7 +45,7 @@ export class Shop {
           break;
         case "Backstage passes to a TAFKAL80ETC concert":
           item.sellIn = decreaseSellIn(item);
-          if (item.sellIn <= 0) {
+          if (item.sellIn < 0) {
             item.quality = 0;
             break;
           }
