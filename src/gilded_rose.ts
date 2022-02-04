@@ -45,15 +45,15 @@ export class Shop {
           break;
         case "Backstage passes to a TAFKAL80ETC concert":
           item.sellIn = decreaseSellIn(item);
-          if (item.sellIn < 0) {
+          if (item.sellIn <= 0) {
             item.quality = 0;
             break;
           }
-          if (item.sellIn <= 5 && item.sellIn > 0) {
+          if (item.sellIn <= 5 && item.sellIn >= 1) {
             item.quality = increaseQuality({ item, increment: 3 });
             break;
           }
-          if (item.sellIn <= 10 && item.sellIn > 0) {
+          if (item.sellIn < 10 && item.sellIn >= 6) {
             item.quality = increaseQuality({ item, increment: 2 });
             break;
           }
