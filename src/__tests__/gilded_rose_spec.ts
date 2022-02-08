@@ -68,7 +68,7 @@ describe("At the end of each day the system decreases the quality", () => {
   });
 });
 
-describe("Some items can be more susceptible to quality degrading:", () => {
+xdescribe("Some items can be more susceptible to quality degrading:", () => {
   it("'Conjured' items degrade in quality twice as fast as normal items", () => {
 
     const gildedRose = new Shop([new Item(ITEM_NAME_CONJURED, SELL_IN_POSITIVE, QUALITY_POSITIVE), new Item(ITEM_NAME_CONJURED, SELL_IN_PASSED, QUALITY_POSITIVE)]);
