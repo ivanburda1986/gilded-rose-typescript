@@ -1,6 +1,9 @@
 import { Shop, Item } from "../gilded_rose";
 const ITEM_NAME_DEFAULT = "foo";
 const ITEM_NAME_CONCERT_TICKET = "Backstage passes to a TAFKAL80ETC concert";
+const ITEM_NAME_CONJURED = "Conjured";
+const ITEM_NAME_SULFURAS = "Sulfuras, Hand of Ragnaros";
+const ITEM_NAME_AGED_BRIE = "Aged Brie";
 
 const SELL_IN_ABOVE_TEN = 11;
 const SELL_IN_TEN_TO_SIX = 10;
@@ -66,7 +69,8 @@ describe("At the end of each day the system decreases the quality", () => {
 
 describe("Some items can be more susceptible to quality degrading:", () => {
   it("'Conjured' items degrade in quality twice as fast as normal items", () => {
-    const gildedRose = new Shop([new Item("Conjured", SELL_IN_POSITIVE, QUALITY_POSITIVE), new Item("Conjured", SELL_IN_PASSED, QUALITY_POSITIVE)]);
+
+    const gildedRose = new Shop([new Item(ITEM_NAME_CONJURED, SELL_IN_POSITIVE, QUALITY_POSITIVE), new Item(ITEM_NAME_CONJURED, SELL_IN_PASSED, QUALITY_POSITIVE)]);
 
     gildedRose.updateQuality();
     const conjured = gildedRose.items[0];
@@ -81,9 +85,9 @@ describe("At the end of each day the system decreases the sell-in value", () => 
   it("of any item by 1", () => {
     const gildedRose = new Shop([
       new Item(ITEM_NAME_DEFAULT, SELL_IN_POSITIVE, QUALITY_POSITIVE),
-      new Item("Aged Brie", SELL_IN_POSITIVE, QUALITY_POSITIVE),
-      new Item("Backstage passes to a TAFKAL80ETC concert", SELL_IN_POSITIVE, QUALITY_POSITIVE),
-      new Item("Conjured", SELL_IN_POSITIVE, QUALITY_POSITIVE),
+      new Item(ITEM_NAME_AGED_BRIE, SELL_IN_POSITIVE, QUALITY_POSITIVE),
+      new Item(ITEM_NAME_CONCERT_TICKET, SELL_IN_POSITIVE, QUALITY_POSITIVE),
+      new Item(ITEM_NAME_CONJURED, SELL_IN_POSITIVE, QUALITY_POSITIVE),
     ]);
 
     gildedRose.updateQuality();
@@ -99,7 +103,8 @@ describe("At the end of each day the system decreases the sell-in value", () => 
   });
 
   it("yet legendary items such as 'Sulfuras', never have to be sold so their sell-in does not change", () => {
-    const gildedRose = new Shop([new Item("Sulfuras, Hand of Ragnaros", SELL_IN_SULFURAS_LEGENDARY_FIXED, QUALITY_SULFURAS_LEGENDARY_FIXED_80)]);
+
+    const gildedRose = new Shop([new Item(ITEM_NAME_SULFURAS, SELL_IN_SULFURAS_LEGENDARY_FIXED, QUALITY_SULFURAS_LEGENDARY_FIXED_80)]);
 
     gildedRose.updateQuality();
     const sulfuras = gildedRose.items[0];
@@ -110,7 +115,7 @@ describe("At the end of each day the system decreases the sell-in value", () => 
 
 describe("For some special items such as 'Backstage passes to a TAFKAL80ETC concert'", () => {
   it("the quality increases by 1 as its sell-in value approaches but is still more than 10 days", () => {
-    const gildedRose = new Shop([new Item("Backstage passes to a TAFKAL80ETC concert", SELL_IN_ABOVE_TEN, QUALITY_POSITIVE)]);
+    const gildedRose = new Shop([new Item(ITEM_NAME_CONCERT_TICKET, SELL_IN_ABOVE_TEN, QUALITY_POSITIVE)]);
 
     gildedRose.updateQuality();
     const backstagePasses = gildedRose.items[0];
@@ -119,7 +124,7 @@ describe("For some special items such as 'Backstage passes to a TAFKAL80ETC conc
   });
 
   it("the quality increases by 2 as its sell-in value approaches and is 10 to 6 days", () => {
-    const gildedRose = new Shop([new Item("Backstage passes to a TAFKAL80ETC concert", SELL_IN_TEN_TO_SIX, QUALITY_POSITIVE)]);
+    const gildedRose = new Shop([new Item(ITEM_NAME_CONCERT_TICKET, SELL_IN_TEN_TO_SIX, QUALITY_POSITIVE)]);
 
     gildedRose.updateQuality();
     const backstagePasses = gildedRose.items[0];
@@ -128,7 +133,7 @@ describe("For some special items such as 'Backstage passes to a TAFKAL80ETC conc
   });
 
   it("the quality increases by 3 as its sell-in value approaches and is 5 to 1 days", () => {
-    const gildedRose = new Shop([new Item("Backstage passes to a TAFKAL80ETC concert", SELL_IN_FIVE_TO_ONE, QUALITY_POSITIVE)]);
+    const gildedRose = new Shop([new Item(ITEM_NAME_CONCERT_TICKET, SELL_IN_FIVE_TO_ONE, QUALITY_POSITIVE)]);
 
     gildedRose.updateQuality();
     const backstagePasses = gildedRose.items[0];
@@ -147,7 +152,7 @@ describe("For some special items such as 'Backstage passes to a TAFKAL80ETC conc
 
 describe("For other special items, such as 'Aged Brie'", () => {
   it("the quality increase the older the item gets", () => {
-    const gildedRose = new Shop([new Item("Aged Brie", SELL_IN_SOME_VALUE, QUALITY_POSITIVE)]);
+    const gildedRose = new Shop([new Item(ITEM_NAME_AGED_BRIE, SELL_IN_SOME_VALUE, QUALITY_POSITIVE)]);
 
     gildedRose.updateQuality();
     const agedBrie = gildedRose.items[0];
@@ -156,7 +161,8 @@ describe("For other special items, such as 'Aged Brie'", () => {
   });
 
   it("yet the quality of any item can increase max to 50", () => {
-    const gildedRose = new Shop([new Item("Aged Brie", SELL_IN_SOME_VALUE, QUALITY_MAXIMUM_50), new Item("Backstage passes to a TAFKAL80ETC concert", SELL_IN_FIVE_TO_ONE, QUALITY_MAXIMUM_50)]);
+
+    const gildedRose = new Shop([new Item(ITEM_NAME_AGED_BRIE, SELL_IN_SOME_VALUE, QUALITY_MAXIMUM_50), new Item(ITEM_NAME_CONCERT_TICKET, SELL_IN_FIVE_TO_ONE, QUALITY_MAXIMUM_50)]);
 
     gildedRose.updateQuality();
     const agedBrie = gildedRose.items[0];
@@ -169,7 +175,7 @@ describe("For other special items, such as 'Aged Brie'", () => {
 
 describe("Some items can be legendary, remain unaffected by any changes to sell-in and quality and even can have out-of-the limits qualities", () => {
   it("Sulfuras, being a legendary item, never has to be sold or changes its fixed quality of 80", () => {
-    const gildedRose = new Shop([new Item("Sulfuras, Hand of Ragnaros", SELL_IN_SULFURAS_LEGENDARY_FIXED, QUALITY_SULFURAS_LEGENDARY_FIXED_80)]);
+    const gildedRose = new Shop([new Item(ITEM_NAME_SULFURAS, SELL_IN_SULFURAS_LEGENDARY_FIXED, QUALITY_SULFURAS_LEGENDARY_FIXED_80)]);
 
     gildedRose.updateQuality();
     const sulfuras = gildedRose.items[0];
