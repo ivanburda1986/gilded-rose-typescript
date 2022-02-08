@@ -1,4 +1,5 @@
 import { Shop, Item } from "../gilded_rose";
+
 const ITEM_NAME_DEFAULT = "foo";
 const ITEM_NAME_CONCERT_TICKET = "Backstage passes to a TAFKAL80ETC concert";
 const ITEM_NAME_CONJURED = "Conjured";
@@ -158,6 +159,15 @@ describe("For other special items, such as 'Aged Brie'", () => {
     const agedBrie = gildedRose.items[0];
 
     expect(agedBrie.quality).toEqual(QUALITY_INCREASE_REGULAR);
+  });
+
+  it("the quality increase twice as fast when the item expired", () => {
+    const gildedRose = new Shop([new Item(ITEM_NAME_AGED_BRIE, SELL_IN_PASSED, QUALITY_POSITIVE)]);
+
+    gildedRose.updateQuality();
+    const agedBrie = gildedRose.items[0];
+
+    expect(agedBrie.quality).toEqual(QUALITY_INCREASE_DOUBLE);
   });
 
   it("yet the quality of any item can increase max to 50", () => {
