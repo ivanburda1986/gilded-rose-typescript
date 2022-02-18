@@ -10,7 +10,5 @@ export class SulfurasStrategy implements IUpdater{
     }
 
     update(item: Item): void {
-        return
     }
-    return;
 }

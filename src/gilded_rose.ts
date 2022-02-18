@@ -17,7 +17,9 @@ export class Shop {
             this.strategies.forEach(strategy=>{
                 if(strategy.isUsable(item)){
                     strategy.update(item);
+
                 }
+
             })
         });
         return this.items;

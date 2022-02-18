@@ -1,16 +1,13 @@
 import { Shop} from "../gilded_rose";
 import {Item} from "../item";
-import {ConcertTicketStrategy} from "../concertTicket";
-import {SulfurasStrategy} from "../sulfuras";
-import {AgedBrieStrategy} from "../agedBrie";
 import {NormalItemStrategy} from "../normalItem";
 
-import {ITEM_NAME_CONCERT_TICKET} from '../concertTicket';
-import {ITEM_NAME_SULFURAS} from '../sulfuras';
-import {ITEM_NAME_AGED_BRIE} from '../agedBrie';
+import {AgedBrieStrategy,ITEM_NAME_AGED_BRIE} from '../agedBrie';
+import {ConcertTicketStrategy,ITEM_NAME_CONCERT_TICKET} from '../concertTicket';
+import {SulfurasStrategy, ITEM_NAME_SULFURAS } from '../sulfuras';
+import {ConjuredStrategy, ITEM_NAME_CONJURED} from '../conjured';
 
 const ITEM_NAME_DEFAULT = "foo";
-const ITEM_NAME_CONJURED = "Conjured";
 
 const SELL_IN_ABOVE_TEN = 11;
 const SELL_IN_TEN_TO_SIX = 10;
@@ -34,7 +31,7 @@ const QUALITY_MAXIMUM_50 = 50;
 const QUALITY_SULFURAS_LEGENDARY_FIXED_80 = 80;
 
 function getShopWithItem(name: string, sellIn: number, quality: number){
-  return new Shop([new Item(name, sellIn, quality)], [new ConcertTicketStrategy(),  new SulfurasStrategy(), new AgedBrieStrategy(), new NormalItemStrategy() ]);
+  return new Shop([new Item(name, sellIn, quality)], [new AgedBrieStrategy(),new ConcertTicketStrategy(),  new SulfurasStrategy(),  new ConjuredStrategy(), new NormalItemStrategy() ]);
 }
 
 describe("An item added to a store", () => {
@@ -78,7 +75,7 @@ describe("At the end of each day the system decreases the quality", () => {
   });
 });
 
-xdescribe("Some items can be more susceptible to quality degrading:", () => {
+describe("Some items can be more susceptible to quality degrading:", () => {
   it("'Conjured' item degrades in quality twice as fast as normal items", () => {
     const gildedRose = getShopWithItem(ITEM_NAME_CONJURED, SELL_IN_POSITIVE, QUALITY_POSITIVE);
 
@@ -87,7 +84,7 @@ xdescribe("Some items can be more susceptible to quality degrading:", () => {
 
     expect(conjured.quality).toEqual(QUALITY_DECREASE_DOUBLE);
   });
-  it("'Conjured' expired item degrade in quality twice as fast as normal expired items", () => {
+  it("Expired 'Conjured' item degrade in quality twice as fast as normal expired items", () => {
     const gildedRose = getShopWithItem(ITEM_NAME_CONJURED, SELL_IN_PASSED, QUALITY_POSITIVE);
 
     gildedRose.updateQuality();
@@ -122,40 +119,40 @@ describe("For some special items such as 'Backstage passes to a TAFKAL80ETC conc
     const gildedRose = getShopWithItem(ITEM_NAME_CONCERT_TICKET, SELL_IN_ABOVE_TEN, QUALITY_POSITIVE);
 
     gildedRose.updateQuality();
-    const backstagePasses = gildedRose.items[0];
+    const concertTicket = gildedRose.items[0];
 
-    expect(backstagePasses.quality).toEqual(QUALITY_INCREASE_REGULAR);
+    expect(concertTicket.quality).toEqual(QUALITY_INCREASE_REGULAR);
   });
 
-  it("the quality increases by 2 as its sell-in value approaches and is 10 to 6 days", () => {
+  it("the quality increases by 2 as its sell-in value approaches, and is 10 to 6 days", () => {
     const gildedRose = getShopWithItem(ITEM_NAME_CONCERT_TICKET, SELL_IN_TEN_TO_SIX, QUALITY_POSITIVE);
 
     gildedRose.updateQuality();
-    const backstagePasses = gildedRose.items[0];
+    const concertTicket = gildedRose.items[0];
 
-    expect(backstagePasses.quality).toEqual(QUALITY_INCREASE_DOUBLE);
+    expect(concertTicket.quality).toEqual(QUALITY_INCREASE_DOUBLE);
   });
 
   it("the quality increases by 3 as its sell-in value approaches and is 5 to 1 days", () => {
     const gildedRose = getShopWithItem(ITEM_NAME_CONCERT_TICKET, SELL_IN_FIVE_TO_ONE, QUALITY_POSITIVE);
 
     gildedRose.updateQuality();
-    const backstagePasses = gildedRose.items[0];
+    const concertTicket = gildedRose.items[0];
 
-    expect(backstagePasses.quality).toEqual(QUALITY_INCREASE_TRIPLE);
+    expect(concertTicket.quality).toEqual(QUALITY_INCREASE_TRIPLE);
   });
   it("yet the quality drops 0 after the concert", () => {
     const gildedRose = getShopWithItem(ITEM_NAME_CONCERT_TICKET, SELL_IN_PASSED, QUALITY_MAXIMUM_50);
 
     gildedRose.updateQuality();
-    const backstagePasses = gildedRose.items[0];
+    const concertTicket = gildedRose.items[0];
 
-    expect(backstagePasses.quality).toEqual(QUALITY_ZERO);
+    expect(concertTicket.quality).toEqual(QUALITY_ZERO);
   });
 });
 
-describe("For other special items, such as 'Aged Brie'", () => {
-  it("the quality increase the older the item gets", () => {
+describe("For other special items", () => {
+  it("such as 'Aged Brie' the quality increase the older the item gets", () => {
     const gildedRose = getShopWithItem(ITEM_NAME_AGED_BRIE, SELL_IN_SOME_VALUE, QUALITY_POSITIVE);
 
     gildedRose.updateQuality();
@@ -164,7 +161,7 @@ describe("For other special items, such as 'Aged Brie'", () => {
     expect(agedBrie.quality).toEqual(QUALITY_INCREASE_REGULAR);
   });
 
-  it("the quality increase twice as fast when the item expired", () => {
+  it("such as 'Aged Brie' the quality increase twice as fast when the item expired", () => {
     const gildedRose = getShopWithItem(ITEM_NAME_AGED_BRIE, SELL_IN_PASSED, QUALITY_POSITIVE);
 
     gildedRose.updateQuality();
@@ -173,24 +170,21 @@ describe("For other special items, such as 'Aged Brie'", () => {
     expect(agedBrie.quality).toEqual(QUALITY_INCREASE_DOUBLE);
   });
 
-  it("yet the quality of any item can increase max to 50", () => {
-    const gildedRose = getShopWithItem(ITEM_NAME_DEFAULT, SELL_IN_SOME_VALUE, QUALITY_MAXIMUM_50);
+  it("the quality of any item can increase, yet max to 50", () => {
+    const gildedRose = getShopWithItem(ITEM_NAME_AGED_BRIE, SELL_IN_SOME_VALUE, QUALITY_MAXIMUM_50);
 
     gildedRose.updateQuality();
     const foo = gildedRose.items[0];
 
     expect(foo.quality).toEqual(QUALITY_MAXIMUM_50);
   });
-});
-
-describe("Some items can be legendary, remain unaffected by any changes to sell-in and quality and even can have out-of-the limits qualities", () => {
-  it("Sulfuras, being a legendary item, never has to be sold or changes its fixed quality of 80", () => {
+  it("such as Sulfuras, being a legendary item, the fixed quality of 80 never changes", () => {
     const gildedRose = getShopWithItem(ITEM_NAME_SULFURAS, SELL_IN_SULFURAS_LEGENDARY_FIXED, QUALITY_SULFURAS_LEGENDARY_FIXED_80);
 
     gildedRose.updateQuality();
     const sulfuras = gildedRose.items[0];
 
-    expect(sulfuras.sellIn).toEqual(SELL_IN_SULFURAS_LEGENDARY_FIXED);
     expect(sulfuras.quality).toEqual(QUALITY_SULFURAS_LEGENDARY_FIXED_80);
   });
 });
+

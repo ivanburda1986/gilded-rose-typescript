@@ -16,7 +16,7 @@ export class AgedBrieStrategy implements  IUpdater{
         if (isExpired(item)) {
             increaseQuality(item)
         }
-        return;
+
     }
-    return;
+
 }

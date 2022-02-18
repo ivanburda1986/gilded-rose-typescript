@@ -21,9 +21,7 @@ export class ConcertTicketStrategy implements IUpdater{
         if (isExpired(item)) {
             setMinimumQuality(item);
         }
-        return;
     }
-    return;
 }
 
 
