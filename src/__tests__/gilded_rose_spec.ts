@@ -31,7 +31,7 @@ const QUALITY_MAXIMUM_50 = 50;
 const QUALITY_SULFURAS_LEGENDARY_FIXED_80 = 80;
 
 function getShopWithItem(name: string, sellIn: number, quality: number){
-  return new Shop([new Item(name, sellIn, quality)], [new AgedBrieStrategy(),new ConcertTicketStrategy(),  new SulfurasStrategy(),  new ConjuredStrategy(), new NormalItemStrategy() ]);
+  return new Shop([new Item(name, sellIn, quality)], [new AgedBrieStrategy(),new ConcertTicketStrategy(),  new SulfurasStrategy(),  new ConjuredStrategy() ], new NormalItemStrategy());
 }
 
 describe("An item added to a store", () => {
