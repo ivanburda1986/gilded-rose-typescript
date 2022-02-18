@@ -1,15 +1,16 @@
 import { Shop} from "../gilded_rose";
 import {Item} from "../item";
 import {ConcertTicketStrategy} from "../concertTicket";
-import {NormalItemStrategy} from "../normalItem";
 import {SulfurasStrategy} from "../sulfuras";
 import {AgedBrieStrategy} from "../agedBrie";
+import {NormalItemStrategy} from "../normalItem";
+
+import {ITEM_NAME_CONCERT_TICKET} from '../concertTicket';
+import {ITEM_NAME_SULFURAS} from '../sulfuras';
+import {ITEM_NAME_AGED_BRIE} from '../agedBrie';
 
 const ITEM_NAME_DEFAULT = "foo";
-const ITEM_NAME_CONCERT_TICKET = "Backstage passes to a TAFKAL80ETC concert";
 const ITEM_NAME_CONJURED = "Conjured";
-const ITEM_NAME_SULFURAS = "Sulfuras, Hand of Ragnaros";
-const ITEM_NAME_AGED_BRIE = "Aged Brie";
 
 const SELL_IN_ABOVE_TEN = 11;
 const SELL_IN_TEN_TO_SIX = 10;
@@ -36,7 +37,7 @@ function getShopWithItem(name: string, sellIn: number, quality: number){
   return new Shop([new Item(name, sellIn, quality)], [new ConcertTicketStrategy(),  new SulfurasStrategy(), new AgedBrieStrategy(), new NormalItemStrategy() ]);
 }
 
-describe("Each item added to a store", () => {
+describe("An item added to a store", () => {
   it("has a sell-in and quality value", () => {
     const gildedRose = getShopWithItem(ITEM_NAME_DEFAULT, SELL_IN_POSITIVE, QUALITY_POSITIVE);
 
@@ -58,7 +59,7 @@ describe("At the end of each day the system decreases the quality", () => {
     expect(foo.quality).toEqual(QUALITY_DECREASE_REGULAR);
   });
 
-  it("of an item twice as fast once the sell-in date of the items passed, ", () => {
+  it("of an item twice as fast once the sell-in date of the item passed, ", () => {
     const gildedRose = getShopWithItem(ITEM_NAME_DEFAULT, SELL_IN_PASSED, QUALITY_POSITIVE);
 
     gildedRose.updateQuality();

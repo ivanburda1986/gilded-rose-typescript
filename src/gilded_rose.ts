@@ -14,13 +14,11 @@ export class Shop {
     updateQuality() {
 
         this.items.forEach(item => {
-
             this.strategies.forEach(strategy=>{
                 if(strategy.isUsable(item)){
                     strategy.update(item);
                 }
             })
-
         });
         return this.items;
     }
