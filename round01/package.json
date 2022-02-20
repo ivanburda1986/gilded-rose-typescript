@@ -10,7 +10,7 @@
   "author": "Attila Kerekes",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^27.0.3",
+    "@types/jest": "^27.4.0",
     "jest": "^27.4.7",
     "ts-jest": "^27.0.7",
     "ts-node": "^10.4.0"
