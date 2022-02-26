@@ -1,7 +1,7 @@
-import { getShopWithItem } from "./shared";
-import { SELL_IN_SOME_VALUE, QUALITY_INCREASE_REGULAR } from './shared'
+
 
 export const ITEM_NAME_AGED_BRIE = "Aged Brie";
+export const QUALITY_MAXIMUM_50 = 50;
 
 describe("Aged Brie", () => {
         it("quality increases the older the item gets", () => {
