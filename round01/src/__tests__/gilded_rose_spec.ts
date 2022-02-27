@@ -16,7 +16,7 @@ const SELL_IN_FIVE_TO_ONE = 5;
 const SELL_IN_SOME_VALUE = 999;
 const SELL_IN_POSITIVE = 5;
 const SELL_IN_DECREASE_REGULAR = 4;
-const SELL_IN_PASSED = 0;
+const SELL_IN_EXPIRING = 0;
 const SELL_IN_SULFURAS_LEGENDARY_FIXED = 999;
 
 const QUALITY_ZERO = 0;
@@ -57,7 +57,7 @@ describe("At the end of each day the system decreases the quality", () => {
   });
 
   it("of an item twice as fast once the sell-in date of the item passed, ", () => {
-    const gildedRose = getShopWithItem(ITEM_NAME_DEFAULT, SELL_IN_PASSED, QUALITY_POSITIVE);
+    const gildedRose = getShopWithItem(ITEM_NAME_DEFAULT, SELL_IN_EXPIRING, QUALITY_POSITIVE);
 
     gildedRose.updateQuality();
     const foo = gildedRose.items[0];
@@ -85,7 +85,7 @@ describe("Some items can be more susceptible to quality degrading:", () => {
     expect(conjured.quality).toEqual(QUALITY_DECREASE_DOUBLE);
   });
   it("Expired 'Conjured' item degrade in quality twice as fast as normal expired items", () => {
-    const gildedRose = getShopWithItem(ITEM_NAME_CONJURED, SELL_IN_PASSED, QUALITY_POSITIVE);
+    const gildedRose = getShopWithItem(ITEM_NAME_CONJURED, SELL_IN_EXPIRING, QUALITY_POSITIVE);
 
     gildedRose.updateQuality();
     const conjuredExpired = gildedRose.items[0];
@@ -142,7 +142,7 @@ describe("For some special items such as 'Backstage passes to a TAFKAL80ETC conc
     expect(concertTicket.quality).toEqual(QUALITY_INCREASE_TRIPLE);
   });
   it("yet the quality drops 0 after the concert", () => {
-    const gildedRose = getShopWithItem(ITEM_NAME_CONCERT_TICKET, SELL_IN_PASSED, QUALITY_MAXIMUM_50);
+    const gildedRose = getShopWithItem(ITEM_NAME_CONCERT_TICKET, SELL_IN_EXPIRING, QUALITY_MAXIMUM_50);
 
     gildedRose.updateQuality();
     const concertTicket = gildedRose.items[0];
@@ -162,7 +162,7 @@ describe("For other special items", () => {
   });
 
   it("such as 'Aged Brie' the quality increase twice as fast when the item expired", () => {
-    const gildedRose = getShopWithItem(ITEM_NAME_AGED_BRIE, SELL_IN_PASSED, QUALITY_POSITIVE);
+    const gildedRose = getShopWithItem(ITEM_NAME_AGED_BRIE, SELL_IN_EXPIRING, QUALITY_POSITIVE);
 
     gildedRose.updateQuality();
     const agedBrie = gildedRose.items[0];
