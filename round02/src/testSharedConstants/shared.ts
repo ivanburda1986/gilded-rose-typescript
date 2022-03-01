@@ -1,4 +1,5 @@
-import { Item, Shop } from "../gilded_rose";
+import { Shop } from "../gilded_rose";
+import { Item } from "../item";
 
 export const ITEM_NAME_DEFAULT = "foo";
 
