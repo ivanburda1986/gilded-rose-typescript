@@ -1,4 +1,6 @@
-import { decreaseSellIn, increaseQuality, isExpired, Item, setMinQuality } from "../item";
+import {decreaseSellIn, increaseQuality, isExpired, Item, setMinQuality} from "../item";
+import {IUpdatableItem} from "../IUpdatableItem";
+import {AgedBrie} from "../agedBrieItem/agedBrie";
 
 export const ITEM_CONCERT_TICKET = 'Backstage passes to a TAFKAL80ETC concert';
 
@@ -20,6 +22,21 @@ export function updateConcertTicket(item: Item) {
     decreaseSellIn(item);
     if (isExpired(item)) {
         setMinQuality(item);
+    }
+
+}
+
+export class ConcertTicket extends Item implements IUpdatableItem {
+    update(): void {
+        updateConcertTicket(this);
+    }
+
+    create(item: Item): IUpdatableItem {
+        return new ConcertTicket(item.name, item.sellIn, item.quality);
+    }
+
+    isSimilar(item: Item): boolean {
+       return isConcertTicket(item);
     }
 
 }
