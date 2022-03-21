@@ -1,0 +1,4 @@
+export const SELL_IN_DECREASE_REGULAR = 4;
+
+
+export const QUALITY_DECREASE_REGULAR = 4;
