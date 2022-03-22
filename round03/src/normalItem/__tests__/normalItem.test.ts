@@ -1,15 +1,15 @@
-import {Item, Shop} from "../../gilded_rose";
 import {
-    QUALITY_DECREASE_REGULAR,
+    getShopWithItem,
     QUALITY_DECREASE_DOUBLE,
+    QUALITY_DECREASE_REGULAR,
+    QUALITY_POSITIVE,
+    QUALITY_MINIMUM,
     SELL_IN_DECREASE_REGULAR,
     SELL_IN_EXPIRED,
-    QUALITY_ZERO, getShopWithItem
+    SELL_IN_POSITIVE
 } from "../../testSharedConstants";
 
 const NORMAL_ITEM = "Normal Item";
-const SELL_IN_POSITIVE = 5;
-const QUALITY_POSITIVE = 5;
 
 describe("Normal item", () => {
     it("has sellIn and quality value", () => {
@@ -48,12 +48,12 @@ describe("Normal item", () => {
     });
 
     it("The minimum quality of an item is 0", () => {
-        const gildedRose = getShopWithItem(NORMAL_ITEM,SELL_IN_POSITIVE,QUALITY_ZERO);
+        const gildedRose = getShopWithItem(NORMAL_ITEM,SELL_IN_POSITIVE,QUALITY_MINIMUM);
 
         gildedRose.updateQuality();
 
         const normalItem = gildedRose.items[0];
-        expect(normalItem.quality).toEqual(QUALITY_ZERO);
+        expect(normalItem.quality).toEqual(QUALITY_MINIMUM);
 
     });
 });
