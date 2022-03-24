@@ -50,7 +50,11 @@ export class Shop {
 
     updateQuality() {
         this.items.forEach(item => {
-            if (item.name == CONCERT_TICKET_ITEM || item.name == AGED_BRIE_ITEM) {
+            if (item.name != AGED_BRIE_ITEM && item.name != CONCERT_TICKET_ITEM) {
+                if (item.name != SULFURAS_ITEM) {
+                    qualityDecrease(item);
+                }
+            } else {
                 if (item.quality < QUALITY_MAX) {
                     item.quality = item.quality + 1;
                     if (item.name == CONCERT_TICKET_ITEM) {
@@ -62,25 +66,28 @@ export class Shop {
                         }
                     }
                 }
-            } else if (item.name != SULFURAS_ITEM) {
-                qualityDecrease(item);
             }
             if (item.name != SULFURAS_ITEM) {
                 sellInDecrease(item);
             }
             if (item.sellIn < SELL_IN_EXPIRED) {
-                if (item.name == AGED_BRIE_ITEM) {
-                    qualityIncrease(item);
-                } else {
-                    if (item.name == CONCERT_TICKET_ITEM) {
+                if (item.name != AGED_BRIE_ITEM) {
+                    if (item.name != CONCERT_TICKET_ITEM) {
+                        if (item.quality > QUALITY_MIN) {
+                            if (item.name != SULFURAS_ITEM) {
+                                qualityDecrease(item);
+                            }
+                        }
+                    } else {
                         qualitySetToMinimum(item);
-                    } else if (item.name != SULFURAS_ITEM) {
-                        qualityDecrease(item);
                     }
+                } else {
+                    qualityIncrease(item);
                 }
             }
         });
 
         return this.items;
+
     }
 }
