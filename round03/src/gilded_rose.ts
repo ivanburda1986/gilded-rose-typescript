@@ -1,3 +1,5 @@
+import {QUALITY_MINIMUM} from "./testSharedConstants";
+
 export class Item {
     name: string;
     sellIn: number;
@@ -10,6 +12,35 @@ export class Item {
     }
 }
 
+const CONCERT_TICKET_ITEM = 'Backstage passes to a TAFKAL80ETC concert';
+const AGED_BRIE_ITEM = 'Aged Brie';
+const SULFURAS_ITEM = 'Sulfuras, Hand of Ragnaros';
+
+const QUALITY_MIN = 0;
+const QUALITY_MAX = 50;
+
+const SELL_IN_EXPIRED = 0;
+
+function qualityDecrease(item: Item) {
+    if (item.quality > QUALITY_MIN) {
+        item.quality = item.quality - 1;
+    }
+}
+
+function qualityIncrease(item: Item) {
+    if (item.quality < QUALITY_MAX) {
+        item.quality = item.quality + 1;
+    }
+}
+
+function qualitySetToMinimum(item: Item) {
+    item.quality = item.quality - item.quality;
+}
+
+function sellInDecrease(item: Item) {
+    item.sellIn = item.sellIn - 1;
+}
+
 export class Shop {
     items: Item[];
 
@@ -18,51 +49,37 @@ export class Shop {
     }
 
     updateQuality() {
-        for (var i = 0; i < this.items.length; i++) {
-            if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-                if (this.items[i].quality > 0) {
-                    if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-                        this.items[i].quality = this.items[i].quality - 1;
-                    }
-                }
-            } else {
-                if (this.items[i].quality < 50) {
-                    this.items[i].quality = this.items[i].quality + 1;
-                    if (this.items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-                        if (this.items[i].sellIn < 11) {
-                            if (this.items[i].quality < 50) {
-                                this.items[i].quality = this.items[i].quality + 1;
-                            }
+        this.items.forEach(item => {
+            if (item.name == CONCERT_TICKET_ITEM || item.name == AGED_BRIE_ITEM) {
+                if (item.quality < QUALITY_MAX) {
+                    item.quality = item.quality + 1;
+                    if (item.name == CONCERT_TICKET_ITEM) {
+                        if (item.sellIn < 11) {
+                            qualityIncrease(item);
                         }
-                        if (this.items[i].sellIn < 6) {
-                            if (this.items[i].quality < 50) {
-                                this.items[i].quality = this.items[i].quality + 1;
-                            }
+                        if (item.sellIn < 6) {
+                            qualityIncrease(item);
                         }
                     }
                 }
+            } else if (item.name != SULFURAS_ITEM) {
+                qualityDecrease(item);
             }
-            if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-                this.items[i].sellIn = this.items[i].sellIn - 1;
+            if (item.name != SULFURAS_ITEM) {
+                sellInDecrease(item);
             }
-            if (this.items[i].sellIn < 0) {
-                if (this.items[i].name != 'Aged Brie') {
-                    if (this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-                        if (this.items[i].quality > 0) {
-                            if (this.items[i].name != 'Sulfuras, Hand of Ragnaros') {
-                                this.items[i].quality = this.items[i].quality - 1;
-                            }
-                        }
-                    } else {
-                        this.items[i].quality = this.items[i].quality - this.items[i].quality;
-                    }
+            if (item.sellIn < SELL_IN_EXPIRED) {
+                if (item.name == AGED_BRIE_ITEM) {
+                    qualityIncrease(item);
                 } else {
-                    if (this.items[i].quality < 50) {
-                        this.items[i].quality = this.items[i].quality + 1;
+                    if (item.name == CONCERT_TICKET_ITEM) {
+                        qualitySetToMinimum(item);
+                    } else if (item.name != SULFURAS_ITEM) {
+                        qualityDecrease(item);
                     }
                 }
             }
-        }
+        });
 
         return this.items;
     }
