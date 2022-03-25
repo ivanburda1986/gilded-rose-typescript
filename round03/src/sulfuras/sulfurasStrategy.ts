@@ -1,0 +1,1 @@
+export const SULFURAS_ITEM = 'Sulfuras, Hand of Ragnaros';

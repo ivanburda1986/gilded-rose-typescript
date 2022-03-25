@@ -1,0 +1,1 @@
+export const CONCERT_TICKET_ITEM = 'Backstage passes to a TAFKAL80ETC concert';
