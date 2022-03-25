@@ -1,4 +1,5 @@
-import {Item, Shop} from "./gilded_rose";
+import {Shop} from "./gilded_rose";
+import {Item} from "./item";
 
 export function getShopWithItem(name: string, sellIn: number, quality: number){
     return new Shop([new Item(name, sellIn, quality)]);
