@@ -50,41 +50,44 @@ export class Shop {
 
     updateQuality() {
         this.items.forEach(item => {
-            if (item.name != AGED_BRIE_ITEM && item.name != CONCERT_TICKET_ITEM) {
-                if (item.name != SULFURAS_ITEM) {
+            if (item.name == SULFURAS_ITEM) {
+                return;
+            }
+            // if ( not ( not something && not something))  -> ! (! true && ! true) -> true || true
+
+            /**
+             *   if (a | b) { doSomething }   => if (a) {doSomething} else if (b) {doSeomthing}
+             *
+             */
+            if (item.name == AGED_BRIE_ITEM) {
+                qualityIncrease(item);
+                sellInDecrease(item);
+                if (item.sellIn < SELL_IN_EXPIRED) {
                     qualityDecrease(item);
                 }
-            } else {
-                if (item.quality < QUALITY_MAX) {
-                    item.quality = item.quality + 1;
-                    if (item.name == CONCERT_TICKET_ITEM) {
-                        if (item.sellIn < 11) {
-                            qualityIncrease(item);
-                        }
-                        if (item.sellIn < 6) {
-                            qualityIncrease(item);
-                        }
-                    }
-                }
-            }
-            if (item.name != SULFURAS_ITEM) {
-                sellInDecrease(item);
-            }
-            if (item.sellIn < SELL_IN_EXPIRED) {
-                if (item.name != AGED_BRIE_ITEM) {
-                    if (item.name != CONCERT_TICKET_ITEM) {
-                        if (item.quality > QUALITY_MIN) {
-                            if (item.name != SULFURAS_ITEM) {
-                                qualityDecrease(item);
-                            }
-                        }
-                    } else {
-                        qualitySetToMinimum(item);
-                    }
-                } else {
+            } else if (item.name == CONCERT_TICKET_ITEM) {
+                qualityIncrease(item);
+                if (item.sellIn < 11) {
                     qualityIncrease(item);
                 }
+                if (item.sellIn < 6) {
+                    qualityIncrease(item);
+                }
+                sellInDecrease(item);
+                if (item.sellIn < SELL_IN_EXPIRED) {
+                    qualitySetToMinimum(item);
+                }
+
+            } else {
+                //Normal item
+                qualityDecrease(item);
+                sellInDecrease(item);
+                if (item.sellIn < SELL_IN_EXPIRED) {
+                    qualityDecrease(item);
+
+                }
             }
+
         });
 
         return this.items;
