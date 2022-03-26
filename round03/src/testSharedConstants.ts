@@ -19,6 +19,7 @@ export const QUALITY_POSITIVE = 5;
 export const QUALITY_MAXIMUM = 50;
 
 export const QUALITY_INCREASE_REGULAR = 6;
+export const QUALITY_INCREASE_DOUBLE = 7;
 export const QUALITY_DECREASE_REGULAR = 4;
 export const QUALITY_DECREASE_DOUBLE = 3;
 export const QUALITY_DECREASE_QUADRUPLE = 1;

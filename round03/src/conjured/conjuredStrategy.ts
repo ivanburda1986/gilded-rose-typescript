@@ -1,5 +1,5 @@
 import {IUpdater} from "../IUpdater/IUpdater";
-import {Item, qualityDecrease} from "../item";
+import {Item, qualityDecrease, qualitySetToMinimum, sellInDecrease} from "../item";
 import {SELL_IN_EXPIRED} from "../testSharedConstants";
 
 const CONJURED_ITEM = 'Conjured';
@@ -12,10 +12,10 @@ export class ConjuredStrategy implements  IUpdater{
     update(item: Item): void {
         qualityDecrease(item);
         qualityDecrease(item);
-        if (item.sellIn < SELL_IN_EXPIRED) {
+        if (item.sellIn <= SELL_IN_EXPIRED) {
             qualityDecrease(item);
             qualityDecrease(item);
         }
+        return;
     }
-
 }

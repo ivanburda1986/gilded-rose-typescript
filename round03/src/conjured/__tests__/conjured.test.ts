@@ -2,7 +2,7 @@ import {
     getShopWithItem,
     QUALITY_DECREASE_DOUBLE,
     QUALITY_DECREASE_QUADRUPLE,
-    QUALITY_POSITIVE,
+    QUALITY_POSITIVE, SELL_IN_EXPIRED,
     SELL_IN_POSITIVE
 } from "../../testSharedConstants";
 
@@ -19,7 +19,7 @@ describe("Conjured", () => {
     });
 
     it("expired decreases quality by 4", () => {
-        const gildedRose = getShopWithItem(CONJURED_ITEM, SELL_IN_POSITIVE, QUALITY_POSITIVE);
+        const gildedRose = getShopWithItem(CONJURED_ITEM, SELL_IN_EXPIRED, QUALITY_POSITIVE);
 
         gildedRose.updateQuality();
 

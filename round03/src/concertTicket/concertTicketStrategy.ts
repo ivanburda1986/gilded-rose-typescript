@@ -18,7 +18,7 @@ export class ConcertTicketStrategy implements IUpdater {
             qualityIncrease(item);
         }
         sellInDecrease(item);
-        if (item.sellIn < SELL_IN_EXPIRED) {
+        if (item.sellIn <= SELL_IN_EXPIRED) {
             qualitySetToMinimum(item);
         }
         return;

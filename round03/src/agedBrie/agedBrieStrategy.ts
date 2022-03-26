@@ -10,12 +10,10 @@ export class AgedBrieStrategy implements IUpdater {
     }
 
     update(item: Item): void {
-        if (item.name == AGED_BRIE_ITEM) {
+        qualityIncrease(item);
+        sellInDecrease(item);
+        if (item.sellIn <= SELL_IN_EXPIRED) {
             qualityIncrease(item);
-            sellInDecrease(item);
-            if (item.sellIn < SELL_IN_EXPIRED) {
-                qualityDecrease(item);
-            }
         }
     }
 

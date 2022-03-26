@@ -11,7 +11,7 @@ export class NormalItemStrategy implements IUpdater {
     update(item: Item): void {
         qualityDecrease(item);
         sellInDecrease(item);
-        if (item.sellIn < SELL_IN_EXPIRED) {
+        if (item.sellIn <= SELL_IN_EXPIRED) {
             qualityDecrease(item);
         }
     }
